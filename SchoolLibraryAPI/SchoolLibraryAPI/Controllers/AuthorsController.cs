@@ -6,9 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace SchoolLibraryAPI.Controllers
 {
+    [ApiController]
     [Route("api/[controller]")]
     [EnableCors("AllowAllHeaders")]
-    public class AuthorsController : Controller
+    public class AuthorsController : ControllerBase
     {
         private readonly IAuthorService _authorService;
 
@@ -24,7 +25,7 @@ namespace SchoolLibraryAPI.Controllers
             return Ok(authors);
         }
 
-        [HttpGet("{id}")]        
+        [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
             var author = _authorService.GetById(id);

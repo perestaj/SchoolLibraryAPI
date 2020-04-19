@@ -9,9 +9,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace SchoolLibraryAPI.Controllers
 {
+    [ApiController]
     [Route("api/[controller]")]
     [EnableCors("AllowAllHeaders")]
-    public class UsersController : Controller
+    public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
 
@@ -43,7 +44,7 @@ namespace SchoolLibraryAPI.Controllers
             if (model != null && ModelState.IsValid)
             {
                 var result = _userService.Update(model);
-                return Ok(result);                                
+                return Ok(result);
             }
 
             return BadRequest();
@@ -83,6 +84,11 @@ namespace SchoolLibraryAPI.Controllers
         [HttpPost("token")]
         public IActionResult CreateToken(string userName, string password)
         {
+            if (string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(password))
+            {
+                return BadRequest();
+            }
+
             var token = _userService.GetToken(userName, password);
             if (token != null)
             {

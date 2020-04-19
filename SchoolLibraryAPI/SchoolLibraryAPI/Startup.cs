@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -10,8 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using SchoolLibraryAPI.Core;
 using SchoolLibraryAPI.Core.Services;
@@ -19,6 +14,9 @@ using SchoolLibraryAPI.DAL;
 
 namespace SchoolLibraryAPI
 {
+    /// <summary>
+    /// The startup class
+    /// </summary>
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -31,7 +29,7 @@ namespace SchoolLibraryAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<LibraryContext>(options => options.UseSqlServer(
+            services.AddDbContext<LibraryContext>(options => options.UseSqlite(
                 Configuration.GetConnectionString("LibraryConnection")));
 
             services.AddCors(options =>
@@ -67,9 +65,9 @@ namespace SchoolLibraryAPI
                     };
                 });
 
-            services.AddAutoMapper();
+            services.AddAutoMapper(typeof(AutomapperProfile));
             services.AddOptions();
-            services.AddMvc();
+            services.AddControllers();
 
             services.Configure<AppSettings>(tokenSection);
             services.AddScoped<IAuthorService, AuthorService>();
@@ -80,18 +78,23 @@ namespace SchoolLibraryAPI
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseRouting();
             app.UseCors("AllowAllHeaders");
 
             app.UseAuthentication();
+            app.UseAuthorization();
 
-            app.UseMvc();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }

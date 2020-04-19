@@ -9,9 +9,10 @@ using System.Collections.Generic;
 
 namespace SchoolLibraryAPI.Controllers
 {
+    [ApiController]
     [Route("api/[controller]")]
     [EnableCors("AllowAllHeaders")]
-    public class BooksController : Controller
+    public class BooksController : ControllerBase
     {
         private readonly IBookService _bookService;
 
@@ -68,7 +69,7 @@ namespace SchoolLibraryAPI.Controllers
         [HttpDelete("{id}")]
         [Authorize(Roles = "Librarian, Administrator")]
         public IActionResult Delete(int id)
-        {            
+        {
             _bookService.Delete(id);
 
             return Ok(id);

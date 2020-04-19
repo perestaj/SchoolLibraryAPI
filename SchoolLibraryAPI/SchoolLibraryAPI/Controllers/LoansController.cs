@@ -8,9 +8,10 @@ using Microsoft.Extensions.Options;
 
 namespace SchoolLibraryAPI.Controllers
 {
+    [ApiController]
     [Route("api/[controller]")]
-    [EnableCors("AllowAllHeaders")]    
-    public class LoansController : Controller
+    [EnableCors("AllowAllHeaders")]
+    public class LoansController : ControllerBase
     {
         private readonly ILoanService _loanService;
         private readonly IOptions<AppSettings> _options;
