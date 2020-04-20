@@ -2,7 +2,8 @@
 Sample school library API
 
 Technologies:
-- .NET Core 2
+- .NET Core 3.1
+- SQLite
 - Entity Framework Core
 - JWT auth
 - Automapper
