@@ -18,7 +18,7 @@ namespace SchoolLibraryAPI.DAL.Entities
         public bool? IsDeleted { get; set; }
         public int? LoanId { get; set; }
         public int PublisherId { get; set; }
-        public DateTime ReleaseDate { get; set; }
+        public DateTime? ReleaseDate { get; set; }
         public string Title { get; set; }
 
         public Loan Loan { get; set; }

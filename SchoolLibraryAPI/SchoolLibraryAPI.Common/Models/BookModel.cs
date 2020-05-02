@@ -13,17 +13,16 @@ namespace SchoolLibraryAPI.Common.Models
         [StringLength(100, ErrorMessage = "Field cannot contain more than 100 characters")]
         public string Title { get; set; }
 
-        [Required]
-        public DateTime ReleaseDate { get; set; }
+        public DateTime? ReleaseDate { get; set; }
 
         [StringLength(1000, ErrorMessage = "Field cannot contain more than 1000 characters")]
         public string AdditionalInformation { get; set; }
-        
+
         [Required]
         public int? PublisherID { get; set; }
         public PublisherModel Publisher { get; set; }
 
-        public BookStatus Status { get; set; }        
+        public BookStatus Status { get; set; }
 
         public IList<AuthorModel> Authors { get; set; }
 
