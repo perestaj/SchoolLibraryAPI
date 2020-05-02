@@ -58,7 +58,7 @@ namespace SchoolLibraryAPI.Core
                 return new UserAddEditResult { Success = false, UserNameTaken = true };
             }
 
-            if (!string.IsNullOrEmpty(model.Email) && 
+            if (!string.IsNullOrEmpty(model.Email) &&
                 _dbContext.Users.AsNoTracking().Any(x => x.UserId != model.UserID && x.Email.ToLower() == model.Email.ToLower()))
             {
                 return new UserAddEditResult { Success = false, EmailTaken = true };
@@ -83,7 +83,7 @@ namespace SchoolLibraryAPI.Core
                 user.Email = model.Email;
                 user.FirstName = model.FirstName;
                 user.LastName = model.LastName;
-                user.Role = int.Parse(model.Role);
+                user.Role = (int)model.Role;
 
                 if (!string.IsNullOrEmpty(model.Password))
                 {

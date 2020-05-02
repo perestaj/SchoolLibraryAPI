@@ -15,25 +15,13 @@ namespace SchoolLibraryAPI.Common.Models
         [StringLength(128, ErrorMessage = "Field cannot contain more than 128 characters")]
         public string Password { get; set; }
 
-        [StringLength(128, ErrorMessage = "Field cannot contain more than 128 characters")]        
+        [StringLength(128, ErrorMessage = "Field cannot contain more than 128 characters")]
         public string PasswordConfirm { get; set; }
 
         [Required]
-        public string Role { get; set; }
+        public Role Role { get; set; }
 
-        public string RoleName
-        {
-            get
-            {
-                SchoolLibraryAPI.Common.Role role;
-                if (!string.IsNullOrEmpty(Role) && Enum.TryParse<SchoolLibraryAPI.Common.Role>(Role, out role))
-                {
-                    return role.ToString();
-                }
-
-                return string.Empty;
-            }
-        }
+        public string RoleName => Role.ToString();
 
         [Required]
         [StringLength(50, ErrorMessage = "Field cannot contain more than 50 characters")]
@@ -72,12 +60,6 @@ namespace SchoolLibraryAPI.Common.Models
             if (UserID == 0 && string.IsNullOrEmpty(Password))
             {
                 yield return new ValidationResult("Password is required", new[] { nameof(Password) });
-            }
-
-            SchoolLibraryAPI.Common.Role role;
-            if (!string.IsNullOrEmpty(Role) && !Enum.TryParse<SchoolLibraryAPI.Common.Role>(Role, out role))
-            {
-                yield return new ValidationResult("Invalid role", new[] { nameof(Role) });
             }
         }
     }
