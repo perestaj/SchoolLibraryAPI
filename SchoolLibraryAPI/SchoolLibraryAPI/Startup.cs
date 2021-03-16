@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.ComponentModel;
+using System.Text;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -67,7 +68,11 @@ namespace SchoolLibraryAPI
 
             services.AddAutoMapper(typeof(AutomapperProfile));
             services.AddOptions();
-            services.AddControllers();
+            services.AddControllers()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.Converters.Add(new Int32Converter());
+                }); ;
 
             services.Configure<AppSettings>(tokenSection);
             services.AddScoped<IAuthorService, AuthorService>();
